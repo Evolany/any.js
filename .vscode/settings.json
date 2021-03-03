@@ -1,0 +1,10 @@
+{
+    "saveAndRun": {
+        "commands": [
+			{
+                "match": ".*\\.scss$",
+                "cmd": "node-sass ${workspaceRoot}/css/style.scss -o ${workspaceRoot}/css/"
+            }
+        ]
+    }
+}
