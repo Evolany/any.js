@@ -255,6 +255,9 @@ function ListView(opt,target,pageTarget){
 					if(renderHTML)cell.addClass("list-view-"+f.wrapper);
 					else o[k] = nv;
 				}
+				if(templates && f.name && templates[f.name]){
+					cell.attr({html:""}).append(...( templates[f.name].render(o,{pref:'e'}) || []) )
+				}
 				if(drawCell)
 					drawCell(cell, o, f)
 			}

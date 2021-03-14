@@ -6,5 +6,6 @@
                 "cmd": "node-sass ${workspaceRoot}/css/style.scss -o ${workspaceRoot}/css/"
             }
         ]
-    }
+    },
+    "liveServer.settings.port": 5501
 }
