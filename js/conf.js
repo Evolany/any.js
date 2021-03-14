@@ -14,7 +14,7 @@ $conf.menus = [
     {
         title : 'Basic concept',
         items : [
-            {title:'php',view:'php'},
+            // {title:'php',view:'php'},
             {title:'@item.quickstart', view:'quickstart'},
             {title:'@item.dom', view:'dom'},
             {title:'@item.events', view:'events'},
