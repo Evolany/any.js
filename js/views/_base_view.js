@@ -24,7 +24,7 @@ var _base_view = new function(p){
 
     this.onRender = async function(){
         const vname = this.docname || this.name.replace(/_view$/,'');
-        let code = await fetch(`docs/${vname}.md`).then(response => response.text())
+        let code = await fetch(`docs/${vname}.md?ver=${$.rand(0,100)}`).then(response => response.text())
 
         // highlight code
         const renderer = new marked.Renderer();
