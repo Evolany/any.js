@@ -5,6 +5,7 @@ window.TEXTS={
     'item.app':['Application','Application'],
     'item.ctrl':['View Controller','View Controller'],
     'item.super':['View Inheritance','View Inheritance'],
+    'item.view':['Custom components','Custom components'],
     'item.template':['Template','Template'],
     'item.state':['State','State'],
     'item.if':['$if','$if'],
@@ -59,4 +60,5 @@ window.TEXTS={
     'view.element_view':['Element','Element'],
     'view.nodelist_view':['NodeList','NodeList'],
     'view.http_view':['http','http'],
+    'view.top_view':['anybot JS library','anybot JS library'],
 }

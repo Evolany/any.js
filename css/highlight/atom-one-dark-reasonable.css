@@ -9,7 +9,7 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   display: block;
   overflow-x: auto;
   padding: 0.5em;
-  color: #abb2bf;
+  color: #fff;
   background: #282c34;
 }
 .hljs-keyword, .hljs-operator {
@@ -25,7 +25,7 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   color: #61aeee;
 }
 .hljs-function .hljs-params {
-  color: #A6E22E;
+  color: #FD971F;
 }
 .hljs-function .hljs-params .hljs-typing {
   color: #FD971F;
@@ -40,7 +40,7 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
   color: #9CCC65;
 }
 .hljs-comment, .hljs-quote {
-  color: #b18eb1;
+  color: #a295a2;
   font-style: italic;
 }
 .hljs-doctag, .hljs-formula {
@@ -49,17 +49,17 @@ Original One Dark Syntax theme from https://github.com/atom/one-dark-syntax
 .hljs-section, .hljs-name, .hljs-selector-tag, .hljs-deletion, .hljs-subst {
   color: #e06c75;
 }
-.hljs-literal {
-  color: #56b6c2;
+.hljs-literal, .hljs-number {
+  color: #cd8eed;
 }
 .hljs-string, .hljs-regexp, .hljs-addition, .hljs-attribute, .hljs-meta-string {
-  color: #98c379;
+  color: #e1e85d;
 }
 .hljs-built_in, .hljs-class .hljs-title {
-  color: #e6c07b;
+  color: #F92672;
 }
-.hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-number {
-  color: #d19a66;
+.hljs-attr, .hljs-variable, .hljs-template-variable, .hljs-type, .hljs-selector-class, .hljs-selector-attr, .hljs-selector-pseudo {
+  color: #ccc;
 }
 .hljs-symbol, .hljs-bullet, .hljs-link, .hljs-meta, .hljs-selector-id, .hljs-title {
   color: #61aeee;

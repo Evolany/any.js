@@ -44,6 +44,7 @@ $conf.menus = [
     {
         title : 'UI components',
         items : [
+            {title:'@item.view', view:'view'},
             {title:'@item.list', view:'list'},
             {title:'@item.form', view:'form'},
             // {title:'@item.autocomplete', view:'autocomplete', hidden:1},//TODO

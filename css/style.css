@@ -27,18 +27,23 @@ html {
   box-sizing: border-box;
   font-size: 62.5%; }
 
-article {
+article.controller {
   display: flex;
   flex-direction: column;
-  background: white; }
-  article > header {
+  background: white;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  position: fixed; }
+  article.controller > header {
     flex: 0 0 6rem;
     display: flex;
     flex-direction: row;
     border-bottom: 1px solid var(--ln);
     align-items: center;
     padding: 0 2rem; }
-    article > header a {
+    article.controller > header a {
       margin-right: 2rem; }
 
 aside {
@@ -50,6 +55,9 @@ aside {
   border-right: 4px solid var(--l1);
   overflow-y: auto;
   box-sizing: border-box; }
+  aside details {
+    border: 0;
+    outline: 0; }
   aside summary {
     font-size: 1.2rem;
     font-weight: bold;
@@ -148,7 +156,8 @@ p {
     text-align: left;
     box-sizing: border-box;
     position: relative;
-    font-size: 1.6rem; }
+    font-size: 1.6rem;
+    line-height: 2.8rem; }
     .markdown code button {
       position: absolute;
       right: 0;
@@ -165,6 +174,15 @@ p {
       font-weight: bold; }
       .markdown code button:hover {
         background-color: white; }
+    .markdown code b {
+      color: #91da1c;
+      font-weight: normal; }
+    .markdown code b.var {
+      color: #F92672; }
+    .markdown code b.fn {
+      color: #61aeee; }
+    .markdown code b.method {
+      color: #91da1c; }
   .markdown h1, .markdown h2, .markdown h3, .markdown h4, .markdown h5, .markdown p, .markdown code {
     margin: .4rem; }
   .markdown h1 {
@@ -214,6 +232,8 @@ p {
     color: var(--d2); }
   .markdown p {
     line-height: 2.4rem; }
+  .markdown pre {
+    margin-bottom: 1.6rem; }
 
 .content-pane {
   flex: 1;

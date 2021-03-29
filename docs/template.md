@@ -24,6 +24,17 @@ var my_view = {
 }
 ```
 
+## Escape
+
+> to avoid compiling, you can simply add a ! inside {{!}}
+> for example
+
+```Javascript
+
+$code("{{!!dont_compile_me}}")
+
+```
+
 ----
 ## Form
 

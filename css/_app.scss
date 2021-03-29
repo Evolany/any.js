@@ -33,10 +33,13 @@ html {
 }
 
 
-article{
+article.controller{
 	display: flex;
 	flex-direction: column;
 	background:white;
+	width:100vw;height:100vh;
+	top:0;left:0;
+	position: fixed;
 	&>header{
 		flex : 0 0 6rem;
 		display: flex;
@@ -58,6 +61,9 @@ aside{
 	border-right: 4px solid var(--l1);
 	overflow-y:auto;
 	box-sizing: border-box;
+	details{
+		border:0;outline: 0;
+	}
 	summary{
 		font-size: 1.2rem;
 		font-weight: bold;
@@ -182,6 +188,7 @@ p {
 		box-sizing: border-box;
 		position: relative;
 		font-size: 1.6rem;
+		line-height: 2.8rem;
 		button{
 			position: absolute;
 			right:0; bottom: 0;
@@ -197,6 +204,10 @@ p {
 			font-weight: bold;
 			&:hover{background-color:white;}
 		}
+		b{color:#91da1c;font-weight: normal;}//#61aeee
+		b.var{color:#F92672;}
+		b.fn{color:#61aeee;}
+		b.method{color:#91da1c;}
 	}
 	h1,h2,h3,h4,h5,p,code{
 		margin:.4rem;
@@ -218,6 +229,8 @@ p {
 
 	p,td,li{color:var(--d2);}
 	p{line-height: 2.4rem;}
+
+	pre{margin-bottom: 1.6rem;}
 
 }
 

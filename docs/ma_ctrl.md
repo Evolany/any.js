@@ -72,6 +72,27 @@ $app.onError=(msg, err)=>{
 ## View controller delegate methods
 
 
+### viewの初期化開始
+
+当該viewが初期化が始まった直後に実行される
+当該viewのデータ及びパラメータの初期化処理を行えます。
+
+* syntax : 
+  * _onInit(ctrl, user, view, bot)_
+* params :
+  * _ctrl_ : {ViewController} current view controller, same with **this**
+  * _user_ : {Object} current user data, same with **$app.me**
+  * _view_ : {Object} view settings data, same with **$this.view**
+  * _bot_ : {Object} bot settings data, same with **$app.bot**
+
+```
+var my_view = {
+	onInit : (ctrl, user, view, bot) => {
+      view.params = "editing=1"; //change query params
+	},
+}
+```
+
 ### viewの初期化完了
 
 当該viewが初期化のタイミングで実行される
@@ -113,6 +134,8 @@ var my_view = {
 ```
 
 ### formや画面上のonchange処理
+
+form上のデータ変更または、listの数量選択などのタイミングで発火
 
 * syntax : 
   * _onChanges(k,v)_
@@ -178,6 +201,39 @@ var my_view = {
 var my_view = {
 	onTransition(opt, data){
         
+    }
+}
+```
+
+
+### List部品内のコンテンツ削除
+
+list/grids部品を使用する場合は、リスト内の部品が削除される時に発火
+* syntax : 
+  * _onListRemoved(e)_
+* param 
+  * _e_ : {Object} 削除されたデータ
+
+```
+var my_view = {
+	  onListRemoved(p){
+        //your task ...
+    }
+}
+```
+
+### ECの商品オプション情報選択
+
+ECのオプション選択部品を使用する場合は、オプションが選択される時に発火
+* syntax : 
+  * _onEcOptions(e)_
+* param 
+  * _e_ : {Object} 選択されたオプションの在庫情報
+
+```
+var my_view = {
+	  onEcOptions(p){
+        //your task ...
     }
 }
 ```

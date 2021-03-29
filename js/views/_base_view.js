@@ -31,7 +31,13 @@ var _base_view = new function(p){
         renderer.code = (code, lang) => {
             let [ln, cls] =(lang || 'JavaScript').split(":")
             const valid = !!(ln && hljs.getLanguage(ln));
-            const highlighted = valid ? hljs.highlight(ln, code).value : code;
+            let highlighted = valid ? hljs.highlight(ln, code).value : code;
+            highlighted = highlighted.replace(/(\$[a-z0-9_]+)/g,'<b>$1</b>');
+            highlighted = highlighted.replace(/(\$[A-Z_]+)/g,'<b class="var">$1</b>');
+            highlighted = highlighted.replace(/(\$\.)/g,'<b>$</b>.');
+            highlighted = highlighted.replace(/\.([a-zA-Z0-9_]+)\(/g,'.<b class="method">$1</b>(');
+            highlighted = highlighted.replace(/\s([^\$][a-z0-9_]+)\(/g,'.<b class="fn">$1</b>(');
+
             return `<pre><code class="hljs ${ln} ${cls||''}">${highlighted}</code></pre>`;
         };
         marked.setOptions({ renderer });

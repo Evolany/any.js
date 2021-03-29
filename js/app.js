@@ -16,3 +16,18 @@ $app.onLoadView = function(vn){
     if($.isString(vn) && !window[vn])
         window[vn] = { name : vn, extend : '_base_view' }
 }
+
+
+$app.onError = function(e, d){
+    if(e=='view_not_exists_error'){
+        window[d.name] = {
+            name : d.name,
+            extend : '_base_view',
+            drawContent(){},
+            onRender(){}
+        }
+        $app.openView(d.name)
+    }else{
+        elog("ERR:red", e, d)
+    }
+}
