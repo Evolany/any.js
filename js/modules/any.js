@@ -1620,7 +1620,6 @@
 		 $app.hash = window.location.hash;
 		 if($browser.mobile && $browser.statusbar) document.body.addClass('with-statusbar');
 		 if($browser.mobile && $browser.toolbar) document.body.addClass('with-toolbar');
-		 // $app.views.push($app.start_view);
 		 $app = $observe($app,{},{scope:'app'});
 		 window.addEventListener('popstate',$app.onUrlChanged);
 		 $app.openView($app.start_view,$app.start_params||{});
@@ -1647,19 +1646,24 @@
 	 onUrlChanged : function(e) {
 		 let state = e.state || {view:$app.start_view};
 		 elog('HISTORY:red', state, location.hash, $app.hash);
-		 // location.reload();
+		 elog('HISTOR2Y:red', state.path, location.href );
 		 let {view} = state;
-		 // ['view','short','path'].forEach(k=>delete state[k])
-		 $cache.set('last-history-state', JSON.stringify(state.data));
-		 if($app.views.includes(view)){//back
+		 if($.isObject(state.data))
+		 	$cache.set('last-history-state', JSON.stringify(state.data));
+		 if(state.path!=location.href && location.hash.startsWith("#") ){
+			return location.href = location.href;
+		 }
+		 if(!$app.views.includes(view) ){//not in history OR manually changes
+			elog("forward", view, $app.views.includes(view))
+			 $app.openView(view, state)
+		 }else{//back button
+			elog("back", view)
 			 $app.views.pop();
 			 if(empty($app.views)){//prevent jump to other site
 				 history.pushState(state, T(view), $conf.encrypt_url===false ? state.path : state.encrypt);
 			 }
 			 $app.historyView = window[view];
-			 $app.closeView($this, state.data) 
-		 }else{//forword ??
-			 $app.openView(view, state)
+			 $app.closeView($this, state.data) 	 
 		 }
 	 },
 	 openUrl : function(url) {
@@ -1726,7 +1730,7 @@
 	  * 
 	  * @param  {[type]} !noTrans [whether appends anchor url (#name_of_the_view) to current one]
 	  */
-	 openView : async function(url, args, opts, included){
+	 openView : async function(url, args, opts){
 		 
 		 if(!url)return;
 		 var vname = url;
@@ -1736,58 +1740,10 @@
 		 let {popup} = opts;
 		 if(popup && !opts.style) opts.style = 'popup';
  
-		 // //solve remove url or object
-		 // if($.isString(url)){
-		 // 	vname = url.split("?")[0];
-		 // 	if($app.onLoadView) $app.onLoadView(vname)
-		 // 	if(!included&&!window[vname] && !$(`script#${vname.split('.').join('_')}`).length){
-		 // 		var surf = $conf.mode=='Product'?'':"?ver="+(new Date().getTime());
-		 // 		return $.include(($conf.view_path||'/js/')+vname+".js"+surf,$app.openView,url,args,popup,true)
-		 // 	}
-		 // }else if($.isObject(url)){
-		 // 	vname = url.name;
-		 // }
-		 
-		 let noUpdateState = ['line','fb'].includes($conf.oname);
-		 if(!popup){//view transition
-			 let canTrans = ($this && $this.onTransition)?$this.onTransition.call($this,url,args,false):true;
-			 if(canTrans===false)return;
-			 $app.targetView = vname;
-			 $app.closeView($this);
-			 $app.hashData = args||{};
-			 if(!noUpdateState) {
-				 let path = `${location.origin}${location.pathname.endsWith('/')?location.pathname:location.pathname+'/'}#/${vname.replace(/_view$/,'').replace(/_/g,'-')}`;
-				 let state = {data:args||{}, view:vname, path:path, encrypt:$app.encodeShortcutURL(vname,$app.hashData), cid:$app.views.length};
-				 elog("HISTORY:orange", state, state.view, $app.views)
-				 history.pushState(state, T(vname), $conf.encrypt_url===false ? path : state.encrypt);
-				 $cache.set('last-history-state', JSON.stringify(state.data));
-			 }
-			 $app.views.push(vname);
-		 }
- 
 		 let params = $.extend(args||{} , $.isString(url) && $.unserialize(url)||{} );
 		 
 		 $controller(vname,params,{popup});
-		 
-		 /*
-		 let view = await $app.initView($.isObject(url)? url : vname)
- 
-		 if(popup){
-			 window.$parent = $this;
-			 view.isPopup = true;
-			 $.send($parent, "inactive");
-		 }
-		 view.params = params||{};
-		 view.options = opts;
-		 $this = view;
-		 $this.onLoad = $this.onLoad || $this.onload;
-		 if($this.super && $this.super.onLoad)
-			 $this.super.onLoad.call($this,params);
-		 if($this.onLoad)
-			 $this.onLoad.call($this,params);
-		 else
-			 $this.loaded.call($this);//$controller.loaded
-		 */
+
 	 },
 	 /**
 	  * open a view as a subview under another view controller
@@ -1800,47 +1756,9 @@
 	  * @return {[type]}           [description]
 	  */
 	 openSubview : async function(view_name, params, header, content, footer, changeRoot=false){
-		 
 		 $controller(view_name, params, {popup:true, header, content, footer, parentView:$this?$this.name:false})
- 
-		 // var v = view_name;
-		 // if($.isString(view_name)){
-		 // 	var vname = view_name.replace(/[#@\?].*/,'');
-		 // 	v = window[vname];
-		 // 	if(!v&&!$(`script#${vname.split('.').join('_')}`).length){
-		 // 		var surf = $conf.mode=='Product'?'':"?ver="+(new Date().getTime());
-		 // 		return $.include(($conf.view_path||'/js/')+vname+".js"+surf,$app.openSubview,view_name,params,header,content,footer,changeRoot);
-		 // 	}
-		 // }
-		 // if(!v)return;
-		 // v.parentView = $this?$this.name:null;
-		 // window.$parent = $this;
-		 // if(!v.close || !v.loaded){
-		 // 	$.extend(v, $controller);
-		 // 	v.__state = {};
-		 // 	await $app.extendSuperView(v);
-		 // }
- 
-		 // if(!v.observer){//not inited
-		 // 	window[v.name] = v.observer = $observe(v,params);
-		 // 	//TODO reset observer
-		 // }
-		 // let observer = v.observer;
-		 // if(changeRoot) $this = observer;
-		 // else $child = observer;
-		 // if(header){observer.header=header}
-		 // else if(header===false){observer.noHeader=true;}
-		 // if(content){content.innerHTML="";observer.content=content;observer.layer=content.parentNode}
-		 // if(footer){observer.footer=footer;}
-		 // else if(footer===false){observer.noFooter=true;}
-		 // observer.params = params || {};
-		 // //$this = v;
-		 // if(observer.onLoad) {	
-		 // 	observer.onLoad.call(observer, params);
-		 // }else{
-		 // 	observer.render.call(observer, header, content, footer, observer.layer);
-		 // }
 	 },
+
 	 openPopup : async function(view_name, params){
 		 // $app.popups = $app.popups || [];
 		 //make dom frame
@@ -1854,9 +1772,6 @@
 	 },
 	 drawView : function(view){
 		 if(!view) return; //FIXME
-		 // if(!view.isPopup)
-		 // 	// $app.hideOthers(view);
-		 // view.render.call(view, $app.viewIdx++);
 	 },
 	 closeView : function(view,data){
 		 if(!view) return;
@@ -1888,15 +1803,6 @@
 		 }
 		 
 	 },
- 
-	 // hideOthers : function(view){
-	 // 	for(var i=0;i<$app.views.length;i++){
-	 // 		var v = window[$app.views[i]];
-	 // 		if($app.views[i]!=view.name && v && v.layer)
-	 // 			//console.log("hide:",v.layer);
-	 // 			v.layer.hide();
-	 // 	}
-	 // },
  
 	 initView : async function(view){
 		 if($app.onLoadView) $app.onLoadView(view)
@@ -2319,20 +2225,36 @@
 	 .then(view=>{//load view file & init view object 
 		 if(!view) return;
 		 window[vname] = view;
-		 ['header', 'footer'].forEach(k=>{
+		 ['header', 'footer'].forEach(k=>{//solve noHeader/footer
 			 if(view[`no${k.ucfirst()}`]) {
 				 $.remove(view[k]);
 				 delete view[k];
 			 }
 		 })
-		 if(view.parentView){
+		 if(view.parentView){//popup
 			 window.$parent = $this;
 			 view.isPopup = true;
 			 view.layer = view.content.parentNode;
 			 if(view.layer) view.layer.css({zIndex:view.idx})
 			 $.send($parent, "inactive");
 			 $child = view;
-		 }else{
+		 }else{//view trans
+			 //history
+			 let canTrans = ($this && $this.onTransition)? $this.onTransition.call($this,vname,params,false) : true;
+			 if(canTrans!==false) {
+				$app.targetView = vname;
+				$app.closeView($this);
+				$app.hashData = params||{};
+				if(!['line','fb'].includes($conf.oname)) {
+					let path = `${location.origin}${location.pathname.endsWith('/')?location.pathname:location.pathname+'/'}#/${vname.replace(/_view$/,'').replace(/_/g,'-')}`;
+					let state = {data:params||{}, view:vname, path:path, encrypt:$app.encodeShortcutURL(vname,$app.hashData), cid:$app.views.length};
+					elog("HISTORY:orange", state, state.view, $app.views)
+					history.pushState(state, T(vname), $conf.encrypt_url===false ? path : state.encrypt);
+					$cache.set('last-history-state', JSON.stringify(state.data));
+				}
+				$app.views.push(vname);
+			 }
+			 //append view layer
 			 $this = view;
 			 document.body.append(view.layer);
 		 }

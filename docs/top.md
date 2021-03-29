@@ -426,15 +426,16 @@ const my_view = {
 ----
 ## other tools
 
-* Element.* : Dom extensions
-* $.* : general tools
-* String.* : string tools
-* Array.* : array tools
+* Element.* : Dom extensions [document](/#/element)
+* $.* : general tools [document](/#/any)
+* String.* : string tools [document](/#/string)
+* Array.* : array tools [document](/#/array)
+* Date.* : date tools [document](/#/date)
 
 
 ----
 # anybot miniapp UI custom
-> see document 
+> see [document](./#/ma_settings)
 
 
 
